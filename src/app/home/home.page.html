@@ -177,14 +177,14 @@
               <label
                 class="check-box"
                 [class.checked]="isChecked(habit, day)"
-                [class.disabled]="day.isPast || day.isFuture"
+                [class.disabled]="isCellLocked(habit, day)"
                 [class.is-future-day]="day.isFuture"
               >
                 <input
                   type="checkbox"
                   [checked]="isChecked(habit, day)"
                   (change)="toggle(habit, day)"
-                  [disabled]="day.isPast || day.isFuture"
+                  [disabled]="isCellLocked(habit, day)"
                   [id]="'check-' + habit.id + '-' + day.dateString"
                 />
                 <span class="check-mark">
@@ -212,7 +212,7 @@
             <td class="col-action">
               <button
                 class="delete-btn"
-                (click)="deleteHabit(habit.id)"
+                (click)="requestDeleteHabit(habit.id)"
                 [id]="'delete-' + habit.id"
                 title="Delete habit"
               >
@@ -225,6 +225,78 @@
           </tr>
         </tbody>
       </table>
+    </div>
+
+    <div
+      class="confirm-modal-backdrop"
+      *ngIf="showConfirmModal"
+      role="presentation"
+    >
+      <section
+        class="confirm-modal-card"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="confirm-log-title"
+        aria-describedby="confirm-log-message"
+      >
+        <p class="confirm-modal-eyebrow">Confirm habit log</p>
+        <h2 id="confirm-log-title">Mark this habit complete?</h2>
+        <p id="confirm-log-message" class="confirm-modal-message">
+          This will permanently log today's habit check-in and lock the cell for the day.
+        </p>
+        <div class="confirm-modal-actions">
+          <button
+            type="button"
+            class="modal-btn modal-btn-secondary"
+            (click)="cancelHabitLog()"
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            class="modal-btn modal-btn-primary"
+            (click)="confirmHabitLog()"
+          >
+            Yes, Confirm
+          </button>
+        </div>
+      </section>
+    </div>
+
+    <div
+      class="confirm-modal-backdrop"
+      *ngIf="showDeleteConfirmModal"
+      role="presentation"
+    >
+      <section
+        class="confirm-modal-card"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="confirm-delete-title"
+        aria-describedby="confirm-delete-message"
+      >
+        <p class="confirm-modal-eyebrow danger">Delete habit</p>
+        <h2 id="confirm-delete-title">Delete this habit?</h2>
+        <p id="confirm-delete-message" class="confirm-modal-message">
+          This will remove the habit and all saved check-in history for it. This action cannot be undone.
+        </p>
+        <div class="confirm-modal-actions">
+          <button
+            type="button"
+            class="modal-btn modal-btn-secondary"
+            (click)="cancelDeleteHabit()"
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            class="modal-btn modal-btn-danger"
+            (click)="confirmDeleteHabit()"
+          >
+            Yes, Delete
+          </button>
+        </div>
+      </section>
     </div>
 
   </div>

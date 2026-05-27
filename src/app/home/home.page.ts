@@ -33,6 +33,10 @@ export class HomePage implements OnInit, AfterViewInit {
   showInput = false;
   selectedFilter: 'weekly' | 'monthly' = 'weekly';
   currentWeekOffset = 0;
+  showConfirmModal = false;
+  pendingLogSelection: { habitId: string; dateString: string } | null = null;
+  showDeleteConfirmModal = false;
+  pendingDeleteHabitId: string | null = null;
 
   private todayStr = '';
 
@@ -153,9 +157,33 @@ export class HomePage implements OnInit, AfterViewInit {
   }
 
   toggle(habit: Habit, day: WeekDay): void {
-    if (day.isPast || day.isFuture) return; // only today is editable in the current week
-    habit.history[day.dateString] = !habit.history[day.dateString];
+    if (this.isCellLocked(habit, day)) return;
+
+    this.pendingLogSelection = {
+      habitId: habit.id,
+      dateString: day.dateString,
+    };
+    this.showConfirmModal = true;
+  }
+
+  confirmHabitLog(): void {
+    const selection = this.pendingLogSelection;
+    if (!selection) return;
+
+    const habit = this.habits.find(h => h.id === selection.habitId);
+    if (!habit) {
+      this.cancelHabitLog();
+      return;
+    }
+
+    habit.history[selection.dateString] = true;
     this.save();
+    this.cancelHabitLog();
+  }
+
+  cancelHabitLog(): void {
+    this.pendingLogSelection = null;
+    this.showConfirmModal = false;
   }
 
   isChecked(habit: Habit, day: WeekDay): boolean {
@@ -163,7 +191,27 @@ export class HomePage implements OnInit, AfterViewInit {
     return !!habit.history[day.dateString];
   }
 
-  deleteHabit(id: string): void {
+  isCellLocked(habit: Habit, day: WeekDay): boolean {
+    return day.isPast || day.isFuture || this.isChecked(habit, day);
+  }
+
+  requestDeleteHabit(id: string): void {
+    this.pendingDeleteHabitId = id;
+    this.showDeleteConfirmModal = true;
+  }
+
+  confirmDeleteHabit(): void {
+    if (!this.pendingDeleteHabitId) return;
+    this.deleteHabit(this.pendingDeleteHabitId);
+    this.cancelDeleteHabit();
+  }
+
+  cancelDeleteHabit(): void {
+    this.pendingDeleteHabitId = null;
+    this.showDeleteConfirmModal = false;
+  }
+
+  private deleteHabit(id: string): void {
     this.habits = this.habits.filter(h => h.id !== id);
     this.save();
   }
