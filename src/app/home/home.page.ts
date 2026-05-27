@@ -30,6 +30,7 @@ export class HomePage implements OnInit, AfterViewInit {
   weekDays: WeekDay[] = [];
   newHabitName = '';
   showInput = false;
+  selectedFilter: 'weekly' | 'monthly' = 'weekly';
 
   private todayStr = '';
 
@@ -175,6 +176,47 @@ export class HomePage implements OnInit, AfterViewInit {
     if (s <= 4)  return '#fb923c';
     if (s <= 5)  return '#f97316';
     return '#ef4444';
+  }
+
+  /* ══════════════════════════════════════════════
+     Consistency Filter
+     ══════════════════════════════════════════════ */
+
+  getHabitConsistency(habit: Habit): number {
+    if (this.selectedFilter === 'monthly') {
+      return this.getMonthlyConsistency(habit);
+    }
+    return this.getWeeklyConsistency(habit);
+  }
+
+  private getWeeklyConsistency(habit: Habit): number {
+    const checked = this.weekDays.filter(d => habit.history[d.dateString]).length;
+    return Math.round((checked / 7) * 100);
+  }
+
+  private getMonthlyConsistency(habit: Habit): number {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth(); // 0-based
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const monthPrefix = `${year}-${String(month + 1).padStart(2, '0')}-`;
+
+    let checked = 0;
+    for (const [key, val] of Object.entries(habit.history)) {
+      if (val && key.startsWith(monthPrefix)) checked++;
+    }
+    return Math.round((checked / daysInMonth) * 100);
+  }
+
+  consistencyColor(habit: Habit): string {
+    const pct = this.getHabitConsistency(habit);
+    if (pct >= 70) return '#34d399'; // mint green
+    if (pct < 45)  return '#fb7185'; // coral-red
+    return '#8b8b9b';                // neutral
+  }
+
+  get consistencyLabel(): string {
+    return this.selectedFilter === 'monthly' ? 'this month' : 'this week';
   }
 
   /* ══════════════════════════════════════════════

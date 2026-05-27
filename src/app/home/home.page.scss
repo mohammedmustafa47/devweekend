@@ -119,6 +119,65 @@
   gap: 1rem;
 }
 
+.add-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* ── Filter Dropdown ── */
+.filter-dropdown-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.filter-dropdown {
+  appearance: none;
+  -webkit-appearance: none;
+  background: #1e1e2f;
+  border: 1.5px solid #2e2e44;
+  border-radius: 10px;
+  padding: 0.6rem 2.4rem 0.6rem 1rem;
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #c8c8d8;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+
+  &:hover {
+    border-color: #4a4a5e;
+  }
+
+  &:focus {
+    border-color: #7c5cfc;
+    box-shadow: 0 0 0 3px rgba(124, 92, 252, 0.15);
+  }
+
+  option {
+    background: #1a1a28;
+    color: #e0e0ea;
+  }
+}
+
+.dropdown-chevron {
+  position: absolute;
+  right: 0.7rem;
+  pointer-events: none;
+  color: #5a5a6a;
+  display: flex;
+  align-items: center;
+
+  svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+
 .add-btn {
   display: inline-flex;
   align-items: center;
@@ -373,8 +432,9 @@ th.today-header {
 /* ── Column Sizing ── */
 .col-name {
   text-align: left;
-  min-width: 140px;
+  min-width: 160px;
   padding-left: 1.25rem;
+  vertical-align: middle;
 }
 
 .col-day {
@@ -411,10 +471,21 @@ th.today-header {
 }
 
 .habit-name {
+  display: block;
   font-size: 0.9rem;
   font-weight: 500;
   color: #f8f9fa;
   white-space: nowrap;
+}
+
+.consistency-badge {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  margin-top: 2px;
+  white-space: nowrap;
+  transition: color 0.3s;
 }
 
 /* Today column vertical highlight stripe */
