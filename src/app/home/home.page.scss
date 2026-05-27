@@ -1,27 +1,543 @@
-#container {
+/* ═══════════════════════════════════════════════
+   Habit Tracker — Premium Dark Theme Styles
+   ═══════════════════════════════════════════════ */
+
+/* ── Page Layout ── */
+.page-wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+  min-height: 100%;
+}
+
+/* ── Header ── */
+.app-header {
   text-align: center;
+  margin-bottom: 2rem;
+  position: relative;
+}
 
+.header-glow {
   position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  height: 160px;
+  background: radial-gradient(ellipse, rgba(124, 92, 252, 0.15) 0%, transparent 70%);
+  pointer-events: none;
 }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
+.app-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-
-  color: #8c8c8c;
-
-  margin: 0;
+.app-title, .accent {
+  color: #7c5cfc;
 }
 
-#container a {
-  text-decoration: none;
+
+
+.title-icon {
+  font-size: 1.6rem;
+}
+
+.app-subtitle {
+  margin-top: 0.35rem;
+  font-size: 0.9rem;
+  color: #6b6b7b;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+/* ── Stats Strip ── */
+.stats-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: #1a1a24;
+  border: 1px solid #2a2a38;
+  border-radius: 14px;
+  padding: 1rem 0.75rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  transition: border-color 0.3s, transform 0.2s;
+
+  &:hover {
+    border-color: #3a3a4a;
+    transform: translateY(-2px);
+  }
+
+  &.accent {
+    border-color: rgba(124, 92, 252, 0.3);
+    background: linear-gradient(135deg, #1a1a24 0%, #1e1a30 100%);
+  }
+
+  &.fire {
+    border-color: rgba(249, 115, 22, 0.3);
+    background: linear-gradient(135deg, #1a1a24 0%, #241a1a 100%);
+  }
+}
+
+.stat-value {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.stat-dim {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #5a5a6a;
+}
+
+.stat-label {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: #6b6b7b;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* ── Add Button Section ── */
+.add-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+  gap: 1rem;
+}
+
+.add-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.7rem 2rem;
+  background: linear-gradient(135deg, #7c5cfc 0%, #6a4fe0 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 20px rgba(124, 92, 252, 0.25);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 28px rgba(124, 92, 252, 0.35);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 12px rgba(124, 92, 252, 0.2);
+  }
+
+  &.active {
+    background: linear-gradient(135deg, #3a3a4a 0%, #2a2a38 100%);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.add-icon {
+  font-size: 1.3rem;
+  font-weight: 700;
+  line-height: 1;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &.rotate {
+    transform: rotate(45deg);
+  }
+}
+
+/* ── Input Field ── */
+.add-input-wrapper {
+  width: 100%;
+  max-width: 420px;
+  animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.input-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.habit-input {
+  flex: 1;
+  background: #1a1a24;
+  border: 1.5px solid #2a2a38;
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  font-family: inherit;
+  font-size: 0.9rem;
+  color: #e8e8ec;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+
+  &::placeholder {
+    color: #4a4a5a;
+  }
+
+  &:focus {
+    border-color: #7c5cfc;
+    box-shadow: 0 0 0 3px rgba(124, 92, 252, 0.15);
+  }
+}
+
+.confirm-btn {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #34d399 0%, #2dba87 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+
+  &:hover:not(:disabled) {
+    transform: scale(1.05);
+    box-shadow: 0 4px 16px rgba(52, 211, 153, 0.3);
+  }
+
+  &:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+}
+
+/* ── Empty State ── */
+.empty-state {
+  text-align: center;
+  padding: 4rem 1rem;
+}
+
+.empty-icon {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  opacity: 0.6;
+}
+
+.empty-text {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #7a7a8a;
+  margin-bottom: 0.4rem;
+}
+
+.empty-hint {
+  font-size: 0.85rem;
+  color: #4a4a5a;
+
+  strong {
+    color: #7c5cfc;
+  }
+}
+
+/* ── Habit Table ── */
+.table-container {
+  overflow-x: auto;
+  border-radius: 16px;
+  background: #14141c;
+  border: 1px solid #1e1e2a;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+
+  /* Hide scrollbar but keep scrollable */
+  &::-webkit-scrollbar {
+    height: 4px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #2a2a38;
+    border-radius: 4px;
+  }
+}
+
+.habit-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 680px;
+}
+
+/* ── Table Head ── */
+thead tr {
+  background: #1a1a24;
+}
+
+th {
+  padding: 0.9rem 0.75rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #5a5a6a;
+  white-space: nowrap;
+
+  &.today {
+    color: #7c5cfc;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 20px;
+      height: 2px;
+      background: #7c5cfc;
+      border-radius: 2px;
+    }
+  }
+}
+
+.col-name {
+  text-align: left;
+  min-width: 140px;
+  padding-left: 1.25rem;
+}
+
+.col-day {
+  text-align: center;
+  width: 54px;
+}
+
+.col-streak {
+  text-align: center;
+  width: 80px;
+}
+
+.col-action {
+  text-align: center;
+  width: 48px;
+  padding-right: 1rem;
+}
+
+/* ── Table Body Rows ── */
+.habit-row {
+  border-bottom: 1px solid #1e1e2a;
+  transition: background 0.15s;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover {
+    background: rgba(124, 92, 252, 0.04);
+  }
+}
+
+.habit-row td {
+  padding: 0.85rem 0.75rem;
+  vertical-align: middle;
+}
+
+.habit-name {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #d0d0da;
+  white-space: nowrap;
+}
+
+.today-col {
+  background: rgba(124, 92, 252, 0.05);
+}
+
+/* ── Custom Checkbox ── */
+.check-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  input[type="checkbox"] {
+    display: none;
+  }
+}
+
+.check-mark {
+  width: 30px;
+  height: 30px;
+  border: 2px solid #2a2a38;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  background: #1a1a24;
+  color: transparent;
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.check-box:hover .check-mark {
+  border-color: #4a4a5a;
+  background: #1e1e2a;
+}
+
+.check-box.checked .check-mark {
+  border-color: #34d399;
+  background: rgba(52, 211, 153, 0.15);
+  color: #34d399;
+  box-shadow: 0 0 12px rgba(52, 211, 153, 0.15);
+  animation: checkPop 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes checkPop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+/* ── Streak Monitor Box ── */
+.streak-box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  min-width: 48px;
+  height: 34px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #5a5a6a;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &.has-streak {
+    color: #ffffff;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.streak-fire {
+  font-size: 0.8rem;
+  animation: fireFlicker 1.5s ease-in-out infinite;
+}
+
+@keyframes fireFlicker {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  25% { transform: scale(1.1) rotate(-3deg); }
+  75% { transform: scale(1.05) rotate(3deg); }
+}
+
+.streak-num {
+  line-height: 1;
+}
+
+/* ── Delete Button ── */
+.delete-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.4rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  opacity: 0;
+
+  svg {
+    width: 16px;
+    height: 16px;
+    stroke: #4a4a5a;
+    transition: stroke 0.2s;
+  }
+
+  &:hover {
+    background: rgba(248, 113, 113, 0.1);
+    svg {
+      stroke: #f87171;
+    }
+  }
+}
+
+.habit-row:hover .delete-btn {
+  opacity: 1;
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .page-wrapper {
+    padding: 1.5rem 1rem 3rem;
+  }
+
+  .app-title {
+    font-size: 1.5rem;
+  }
+
+  .stats-strip {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stat-value {
+    font-size: 1.1rem;
+  }
+
+  .add-btn {
+    padding: 0.6rem 1.5rem;
+    font-size: 0.88rem;
+  }
+
+  .col-name {
+    min-width: 100px;
+    padding-left: 0.75rem;
+  }
+
+  .check-mark {
+    width: 26px;
+    height: 26px;
+
+    svg {
+      width: 14px;
+      height: 14px;
+    }
+  }
+
+  .streak-box {
+    min-width: 40px;
+    height: 30px;
+    font-size: 0.8rem;
+  }
+
+  .delete-btn {
+    opacity: 1; // always show on mobile (no hover)
+  }
 }

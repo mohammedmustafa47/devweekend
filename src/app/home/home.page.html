@@ -1,20 +1,155 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="page-wrapper">
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+    <!-- ═══ Header ═══ -->
+    <header class="app-header">
+      <div class="header-glow"></div>
+      <h1 class="app-title">
+        <span class="title-icon">🔥</span>
+        Habit Tracker
+      </h1>
+      <p class="app-subtitle">Build consistency, one day at a time</p>
+    </header>
+
+    <!-- ═══ Stats Strip ═══ -->
+    <div class="stats-strip" *ngIf="habits.length > 0">
+      <div class="stat-card">
+        <span class="stat-value">{{ habits.length }}</span>
+        <span class="stat-label">Habits</span>
+      </div>
+      <div class="stat-card accent">
+        <span class="stat-value">{{ totalChecked() }}<span class="stat-dim">/{{ totalPossible() }}</span></span>
+        <span class="stat-label">Checked</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">{{ overallPercent() }}%</span>
+        <span class="stat-label">Complete</span>
+      </div>
+      <div class="stat-card fire">
+        <span class="stat-value">🔥 {{ bestStreak() }}</span>
+        <span class="stat-label">Best Streak</span>
+      </div>
+    </div>
+
+    <!-- ═══ Add Button (centered) ═══ -->
+    <div class="add-section">
+      <button
+        class="add-btn"
+        id="add-habit-button"
+        (click)="toggleAddInput()"
+        [class.active]="showInput"
+      >
+        <span class="add-icon" [class.rotate]="showInput">+</span>
+        {{ showInput ? 'Cancel' : 'Add' }}
+      </button>
+
+      <!-- Input field (slides in) -->
+      <div class="add-input-wrapper" *ngIf="showInput">
+        <div class="input-row">
+          <input
+            id="habit-name-input"
+            class="habit-input"
+            type="text"
+            [(ngModel)]="newHabitName"
+            placeholder="Enter habit name…"
+            (keyup.enter)="addHabit()"
+            (keyup.escape)="cancelAdd()"
+            autofocus
+          />
+          <button
+            class="confirm-btn"
+            id="confirm-add-button"
+            (click)="addHabit()"
+            [disabled]="!newHabitName.trim()"
+          >
+            ✓
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ Empty State ═══ -->
+    <div class="empty-state" *ngIf="habits.length === 0">
+      <div class="empty-icon">📋</div>
+      <p class="empty-text">No habits yet</p>
+      <p class="empty-hint">Tap <strong>+ Add</strong> above to start tracking</p>
+    </div>
+
+    <!-- ═══ Habit Table ═══ -->
+    <div class="table-container" *ngIf="habits.length > 0">
+      <table class="habit-table" id="habit-table">
+        <thead>
+          <tr>
+            <th class="col-name">Habit</th>
+            <th
+              *ngFor="let d of days; let i = index"
+              class="col-day"
+              [class.today]="i === todayIndex"
+            >
+              {{ d }}
+            </th>
+            <th class="col-streak">Streak</th>
+            <th class="col-action"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let habit of habits; let idx = index" class="habit-row">
+            <!-- Habit name -->
+            <td class="col-name">
+              <span class="habit-name">{{ habit.name }}</span>
+            </td>
+
+            <!-- Weekday checkboxes -->
+            <td
+              *ngFor="let day of days; let i = index"
+              class="col-day"
+              [class.today-col]="i === todayIndex"
+            >
+              <label class="check-box" [class.checked]="habit.checks[i]">
+                <input
+                  type="checkbox"
+                  [checked]="habit.checks[i]"
+                  (change)="toggle(habit, i)"
+                  [id]="'check-' + habit.id + '-' + i"
+                />
+                <span class="check-mark">
+                  <svg *ngIf="habit.checks[i]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </span>
+              </label>
+            </td>
+
+            <!-- Streak monitor -->
+            <td class="col-streak">
+              <div
+                class="streak-box"
+                [style.background]="streakColor(habit)"
+                [class.has-streak]="streak(habit) > 0"
+              >
+                <span class="streak-fire" *ngIf="streak(habit) >= 3">🔥</span>
+                <span class="streak-num">{{ streak(habit) }}</span>
+              </div>
+            </td>
+
+            <!-- Delete -->
+            <td class="col-action">
+              <button
+                class="delete-btn"
+                (click)="deleteHabit(habit.id)"
+                [id]="'delete-' + habit.id"
+                title="Delete habit"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="3 6 5 6 21 6"></polyline>
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                </svg>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
   </div>
 </ion-content>
