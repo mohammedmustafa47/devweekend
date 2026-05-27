@@ -66,8 +66,8 @@
 }
 
 .stat-card {
-  background: #1a1a24;
-  border: 1px solid #2a2a38;
+  background: #1e1e2f;
+  border: 1px solid #2e2e42;
   border-radius: 14px;
   padding: 1rem 0.75rem;
   text-align: center;
@@ -77,18 +77,18 @@
   transition: border-color 0.3s, transform 0.2s;
 
   &:hover {
-    border-color: #3a3a4a;
+    border-color: #4a4a5e;
     transform: translateY(-2px);
   }
 
   &.accent {
     border-color: rgba(124, 92, 252, 0.3);
-    background: linear-gradient(135deg, #1a1a24 0%, #1e1a30 100%);
+    background: linear-gradient(135deg, #1e1e2f 0%, #251e3a 100%);
   }
 
   &.fire {
     border-color: rgba(249, 115, 22, 0.3);
-    background: linear-gradient(135deg, #1a1a24 0%, #241a1a 100%);
+    background: linear-gradient(135deg, #1e1e2f 0%, #2e1e1e 100%);
   }
 }
 
@@ -270,8 +270,8 @@
 .table-container {
   overflow-x: auto;
   border-radius: 16px;
-  background: #14141c;
-  border: 1px solid #1e1e2a;
+  background: #1e1e2f;
+  border: 1px solid #2e2e42;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
 
   /* Hide scrollbar but keep scrollable */
@@ -282,7 +282,7 @@
     background: transparent;
   }
   &::-webkit-scrollbar-thumb {
-    background: #2a2a38;
+    background: #3a3a50;
     border-radius: 4px;
   }
 }
@@ -295,7 +295,7 @@
 
 /* ── Table Head ── */
 thead tr {
-  background: #1a1a24;
+  background: #252538;
 }
 
 th {
@@ -304,12 +304,13 @@ th {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: #5a5a6a;
+  color: #f0f0f5;
   white-space: nowrap;
 
   &.today {
-    color: #7c5cfc;
+    color: #00e5ff;
     position: relative;
+    text-shadow: 0 0 8px rgba(0, 229, 255, 0.5);
 
     &::after {
       content: '';
@@ -317,12 +318,19 @@ th {
       bottom: 0;
       left: 50%;
       transform: translateX(-50%);
-      width: 20px;
-      height: 2px;
-      background: #7c5cfc;
-      border-radius: 2px;
+      width: 28px;
+      height: 3px;
+      background: #00e5ff;
+      border-radius: 3px;
+      box-shadow: 0 0 10px rgba(0, 229, 255, 0.6);
+      animation: todayPulse 2s ease-in-out infinite;
     }
   }
+}
+
+@keyframes todayPulse {
+  0%, 100% { box-shadow: 0 0 10px rgba(0, 229, 255, 0.6); opacity: 1; }
+  50% { box-shadow: 0 0 20px rgba(0, 229, 255, 0.9); opacity: 0.8; }
 }
 
 .col-name {
@@ -369,12 +377,14 @@ th {
 .habit-name {
   font-size: 0.9rem;
   font-weight: 500;
-  color: #d0d0da;
+  color: #f0f0f5;
   white-space: nowrap;
 }
 
 .today-col {
-  background: rgba(124, 92, 252, 0.05);
+  background: rgba(0, 229, 255, 0.06);
+  border-left: 1px solid rgba(0, 229, 255, 0.08);
+  border-right: 1px solid rgba(0, 229, 255, 0.08);
 }
 
 /* ── Custom Checkbox ── */
