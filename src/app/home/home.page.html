@@ -4,13 +4,32 @@
     <!-- ═══ Header ═══ -->
     <header class="app-header">
       <div class="header-glow"></div>
+      <div class="theme-switch" aria-label="Theme selection">
+        <button
+          type="button"
+          class="theme-option"
+          [class.active]="!isDark"
+          [attr.aria-pressed]="!isDark"
+          (click)="setTheme(false)"
+        >
+          Light
+        </button>
+        <button
+          type="button"
+          class="theme-option"
+          [class.active]="isDark"
+          [attr.aria-pressed]="isDark"
+          (click)="setTheme(true)"
+        >
+          Dark
+        </button>
+      </div>
       <h1 class="app-title">
         <span class="title-icon">🔥</span>
         Habit Tracker
       </h1>
       <p class="app-subtitle">Build consistency, one day at a time</p>
     </header>
-
     <!-- ═══ Stats Strip ═══ -->
     <div class="stats-strip" *ngIf="habits.length > 0">
       <div class="stat-card">

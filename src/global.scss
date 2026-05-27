@@ -56,3 +56,17 @@ body {
 ion-content {
   --background: #0f0f13;
 }
+
+body:not(.dark) {
+  background: #f6f7fb;
+  color: #181824;
+}
+
+body:not(.dark) ion-content {
+  --background: #f6f7fb;
+}
+
+body.dark {
+  background: #0f0f13;
+  color: #e8e8ec;
+}

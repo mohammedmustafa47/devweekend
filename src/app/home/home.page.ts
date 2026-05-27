@@ -2,7 +2,6 @@ import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angula
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent } from '@ionic/angular/standalone';
-
 /* ── Data Models ── */
 
 export interface Habit {
@@ -37,7 +36,7 @@ export class HomePage implements OnInit, AfterViewInit {
   pendingLogSelection: { habitId: string; dateString: string } | null = null;
   showDeleteConfirmModal = false;
   pendingDeleteHabitId: string | null = null;
-
+  isDark = false;
   private todayStr = '';
 
   @ViewChild('gridScrollContainer') gridScrollContainer!: ElementRef<HTMLElement>;
@@ -50,6 +49,14 @@ export class HomePage implements OnInit, AfterViewInit {
     this.todayStr = this.toDateString(new Date());
     this.generateWeek();
     this.loadHabits();
+    const savedTheme = localStorage.getItem('darkMode');
+    this.setTheme(savedTheme === null ? true : savedTheme === 'true');
+  }
+
+  setTheme(isDark: boolean): void {
+    this.isDark = isDark;
+    document.body.classList.toggle('dark', isDark);
+    localStorage.setItem('darkMode', String(isDark));
   }
 
   ngAfterViewInit(): void {
@@ -77,6 +84,8 @@ export class HomePage implements OnInit, AfterViewInit {
 
     const dayNames = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
     this.weekDays = [];
+
+    
 
     for (let i = 0; i < 7; i++) {
       const d = new Date(monday);
@@ -312,5 +321,9 @@ export class HomePage implements OnInit, AfterViewInit {
     return this.habits.length === 0
       ? 0
       : Math.max(...this.habits.map(h => this.streak(h)));
+  }
+
+  toggleTheme(): void {
+    this.setTheme(!this.isDark);
   }
 }

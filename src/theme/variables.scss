@@ -21,3 +21,17 @@
   --ion-color-danger-shade: #da6363;
   --ion-color-danger-tint: #f97f7f;
 }
+
+/* DARK MODE */
+
+body.dark {
+  --ion-background-color: #0f172a;
+  --ion-text-color: #ffffff;
+
+  --ion-card-background: #1e293b;
+
+  --ion-toolbar-background: #111827;
+  --ion-toolbar-color: #ffffff;
+
+  --ion-color-primary: #38bdf8;
+}
