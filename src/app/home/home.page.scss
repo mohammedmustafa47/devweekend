@@ -4,7 +4,10 @@
 
 /* ── Page Layout ── */
 .page-wrapper {
-  max-width: 900px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
   margin: 0 auto;
   padding: 2rem 1.5rem 4rem;
   min-height: 100%;
@@ -363,11 +366,13 @@
 }
 
 /* ══════════════════════════════════════════════
-   Habit Table — Scrollable Grid Container
-   ══════════════════════════════════════════════ */
-.table-container {
+  Habit Table — Scrollable Grid Container
+  ══════════════════════════════════════════════ */
+.matrix-scroll-wrapper {
+  width: 100%;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+  white-space: nowrap;
   border-radius: 16px;
   background: #1e1e2f;
   border: 1px solid #2e2e42;
@@ -393,8 +398,8 @@
 
 .habit-table {
   width: 100%;
+  min-width: 500px;
   border-collapse: collapse;
-  min-width: 790px;
 }
 
 /* ── Table Head ── */
@@ -902,7 +907,7 @@ td.today-col {
 
 :host-context(body:not(.dark)) .theme-switch,
 :host-context(body:not(.dark)) .stat-card,
-:host-context(body:not(.dark)) .table-container,
+:host-context(body:not(.dark)) .matrix-scroll-wrapper,
 :host-context(body:not(.dark)) .filter-dropdown,
 :host-context(body:not(.dark)) .week-nav-btn,
 :host-context(body:not(.dark)) .week-reset-btn,
