@@ -347,7 +347,7 @@
 .habit-table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 700px;
+  min-width: 790px;
 }
 
 /* ── Table Head ── */
@@ -388,6 +388,71 @@ th.col-day {
 }
 
 /* ── Today Header — Vibrant Cyan Marker ── */
+.week-nav-col {
+  width: 44px;
+  min-width: 44px;
+  padding: 0.55rem 0.35rem;
+  text-align: center;
+}
+
+.week-nav-btn,
+.week-reset-btn {
+  border: 1px solid #2e2e42;
+  background: #1e1e2f;
+  color: #c8c8d8;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 700;
+  transition: background 0.2s, border-color 0.2s, color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+
+.week-nav-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  line-height: 1;
+
+  &:hover {
+    background: #252538;
+    border-color: #4a4a5e;
+    color: #ffffff;
+    transform: translateY(-1px);
+  }
+
+  &:focus-visible {
+    outline: none;
+    border-color: #00e5ff;
+    box-shadow: 0 0 0 3px rgba(0, 229, 255, 0.16);
+  }
+}
+
+.week-reset-btn {
+  margin-left: 0.65rem;
+  padding: 0.35rem 0.55rem;
+  border-radius: 8px;
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+
+  &:hover {
+    background: rgba(0, 229, 255, 0.08);
+    border-color: rgba(0, 229, 255, 0.42);
+    color: #00e5ff;
+  }
+
+  &:focus-visible {
+    outline: none;
+    border-color: #00e5ff;
+    box-shadow: 0 0 0 3px rgba(0, 229, 255, 0.16);
+  }
+}
+
+.week-nav-spacer {
+  border-left: 1px solid transparent;
+  border-right: 1px solid transparent;
+}
+
 th.today-header {
   position: relative;
 
@@ -483,6 +548,10 @@ td.is-future-day .check-box {
 .habit-row td {
   padding: 0.85rem 0.6rem;
   vertical-align: middle;
+}
+
+.habit-row td.week-nav-col {
+  padding: 0;
 }
 
 .habit-name {

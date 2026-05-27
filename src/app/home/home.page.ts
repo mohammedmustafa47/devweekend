@@ -32,6 +32,7 @@ export class HomePage implements OnInit, AfterViewInit {
   newHabitName = '';
   showInput = false;
   selectedFilter: 'weekly' | 'monthly' = 'weekly';
+  currentWeekOffset = 0;
 
   private todayStr = '';
 
@@ -60,12 +61,14 @@ export class HomePage implements OnInit, AfterViewInit {
      ══════════════════════════════════════════════ */
 
   private generateWeek(): void {
-    const today = new Date();
-    const jsDay = today.getDay(); // 0 = Sun
+    const viewedDate = new Date();
+    viewedDate.setDate(viewedDate.getDate() + (this.currentWeekOffset * 7));
+
+    const jsDay = viewedDate.getDay(); // 0 = Sun
     const mondayOffset = jsDay === 0 ? -6 : 1 - jsDay;
 
-    const monday = new Date(today);
-    monday.setDate(today.getDate() + mondayOffset);
+    const monday = new Date(viewedDate);
+    monday.setDate(viewedDate.getDate() + mondayOffset);
     monday.setHours(0, 0, 0, 0);
 
     const dayNames = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
@@ -86,6 +89,21 @@ export class HomePage implements OnInit, AfterViewInit {
         isFuture,
       });
     }
+  }
+
+  goToPreviousWeek(): void {
+    this.currentWeekOffset -= 1;
+    this.generateWeek();
+  }
+
+  goToNextWeek(): void {
+    this.currentWeekOffset += 1;
+    this.generateWeek();
+  }
+
+  goToCurrentWeek(): void {
+    this.currentWeekOffset = 0;
+    this.generateWeek();
   }
 
   /** Format Date → 'YYYY-MM-DD' */
@@ -141,6 +159,7 @@ export class HomePage implements OnInit, AfterViewInit {
   }
 
   isChecked(habit: Habit, day: WeekDay): boolean {
+    if (day.isFuture) return false;
     return !!habit.history[day.dateString];
   }
 
@@ -193,7 +212,7 @@ export class HomePage implements OnInit, AfterViewInit {
   }
 
   private getWeeklyConsistency(habit: Habit): number {
-    const checked = this.weekDays.filter(d => habit.history[d.dateString]).length;
+    const checked = this.weekDays.filter(d => this.isChecked(habit, d)).length;
     return Math.round((checked / 7) * 100);
   }
 
@@ -228,7 +247,7 @@ export class HomePage implements OnInit, AfterViewInit {
 
   totalChecked(): number {
     return this.habits.reduce(
-      (sum, h) => sum + this.weekDays.filter(d => h.history[d.dateString]).length, 0,
+      (sum, h) => sum + this.weekDays.filter(d => this.isChecked(h, d)).length, 0,
     );
   }
 

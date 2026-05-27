@@ -51,6 +51,7 @@
             id="consistency-filter"
             [(ngModel)]="selectedFilter"
           >
+            <option value="" disabled selected>Filter</option>
             <option value="weekly">Weekly View</option>
             <option value="monthly">Monthly View</option>
           </select>
@@ -101,7 +102,28 @@
         <!-- ── Table Head ── -->
         <thead>
           <tr>
-            <th class="col-name">Habit</th>
+            <th class="col-name">
+              <span>Habit</span>
+              <button
+                *ngIf="currentWeekOffset !== 0"
+                type="button"
+                class="week-reset-btn"
+                (click)="goToCurrentWeek()"
+              >
+                This week
+              </button>
+            </th>
+            <th class="week-nav-col">
+              <button
+                type="button"
+                class="week-nav-btn"
+                (click)="goToPreviousWeek()"
+                aria-label="Previous week"
+                title="Previous week"
+              >
+                &lt;
+              </button>
+            </th>
             <th
               *ngFor="let day of weekDays"
               class="col-day"
@@ -111,6 +133,17 @@
             >
               <span class="day-name">{{ day.dayName }}</span>
               <span class="day-date">{{ day.dateLabel }}</span>
+            </th>
+            <th class="week-nav-col">
+              <button
+                type="button"
+                class="week-nav-btn"
+                (click)="goToNextWeek()"
+                aria-label="Next week"
+                title="Next week"
+              >
+                &gt;
+              </button>
             </th>
             <th class="col-streak">Streak</th>
             <th class="col-action"></th>
@@ -131,6 +164,7 @@
                 {{ getHabitConsistency(habit) }}% consistency ({{ consistencyLabel }})
               </span>
             </td>
+            <td class="week-nav-col week-nav-spacer"></td>
 
             <!-- Weekday checkboxes -->
             <td
@@ -160,6 +194,7 @@
                 </span>
               </label>
             </td>
+            <td class="week-nav-col week-nav-spacer"></td>
 
             <!-- Streak monitor -->
             <td class="col-streak">
