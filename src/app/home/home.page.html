@@ -75,25 +75,32 @@
       <p class="empty-hint">Tap <strong>+ Add</strong> above to start tracking</p>
     </div>
 
-    <!-- ═══ Habit Table ═══ -->
-    <div class="table-container" *ngIf="habits.length > 0">
+    <!-- ═══ Habit Table (scrollable grid) ═══ -->
+    <div class="table-container" *ngIf="habits.length > 0" #gridScrollContainer>
       <table class="habit-table" id="habit-table">
+
+        <!-- ── Table Head ── -->
         <thead>
           <tr>
             <th class="col-name">Habit</th>
             <th
-              *ngFor="let d of days; let i = index"
+              *ngFor="let day of weekDays"
               class="col-day"
-              [class.today]="i === todayIndex"
+              [class.today-header]="day.isToday"
+              [class.is-past-day]="day.isPast"
             >
-              {{ d }}
+              <span class="day-name">{{ day.dayName }}</span>
+              <span class="day-date">{{ day.dateLabel }}</span>
             </th>
             <th class="col-streak">Streak</th>
             <th class="col-action"></th>
           </tr>
         </thead>
+
+        <!-- ── Table Body ── -->
         <tbody>
-          <tr *ngFor="let habit of habits; let idx = index" class="habit-row">
+          <tr *ngFor="let habit of habits" class="habit-row">
+
             <!-- Habit name -->
             <td class="col-name">
               <span class="habit-name">{{ habit.name }}</span>
@@ -101,19 +108,25 @@
 
             <!-- Weekday checkboxes -->
             <td
-              *ngFor="let day of days; let i = index"
+              *ngFor="let day of weekDays"
               class="col-day"
-              [class.today-col]="i === todayIndex"
+              [class.today-col]="day.isToday"
+              [class.is-past-day]="day.isPast"
             >
-              <label class="check-box" [class.checked]="habit.checks[i]">
+              <label
+                class="check-box"
+                [class.checked]="isChecked(habit, day)"
+                [class.disabled]="day.isPast"
+              >
                 <input
                   type="checkbox"
-                  [checked]="habit.checks[i]"
-                  (change)="toggle(habit, i)"
-                  [id]="'check-' + habit.id + '-' + i"
+                  [checked]="isChecked(habit, day)"
+                  (change)="toggle(habit, day)"
+                  [disabled]="day.isPast"
+                  [id]="'check-' + habit.id + '-' + day.dateString"
                 />
                 <span class="check-mark">
-                  <svg *ngIf="habit.checks[i]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <svg *ngIf="isChecked(habit, day)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="20 6 9 17 4 12"></polyline>
                   </svg>
                 </span>

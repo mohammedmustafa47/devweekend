@@ -39,12 +39,6 @@
   gap: 0.5rem;
 }
 
-.app-title, .accent {
-  color: #7c5cfc;
-}
-
-
-
 .title-icon {
   font-size: 1.6rem;
 }
@@ -57,7 +51,9 @@
   letter-spacing: 0.02em;
 }
 
-/* ── Stats Strip ── */
+/* ══════════════════════════════════════════════
+   Stats Strip
+   ══════════════════════════════════════════════ */
 .stats-strip {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -112,7 +108,9 @@
   letter-spacing: 0.08em;
 }
 
-/* ── Add Button Section ── */
+/* ══════════════════════════════════════════════
+   Add Button Section
+   ══════════════════════════════════════════════ */
 .add-section {
   display: flex;
   flex-direction: column;
@@ -173,14 +171,8 @@
 }
 
 @keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .input-row {
@@ -201,9 +193,7 @@
   outline: none;
   transition: border-color 0.2s, box-shadow 0.2s;
 
-  &::placeholder {
-    color: #4a4a5a;
-  }
+  &::placeholder { color: #4a4a5a; }
 
   &:focus {
     border-color: #7c5cfc;
@@ -238,7 +228,9 @@
   }
 }
 
-/* ── Empty State ── */
+/* ══════════════════════════════════════════════
+   Empty State
+   ══════════════════════════════════════════════ */
 .empty-state {
   text-align: center;
   padding: 4rem 1rem;
@@ -261,36 +253,42 @@
   font-size: 0.85rem;
   color: #4a4a5a;
 
-  strong {
-    color: #7c5cfc;
-  }
+  strong { color: #7c5cfc; }
 }
 
-/* ── Habit Table ── */
+/* ══════════════════════════════════════════════
+   Habit Table — Scrollable Grid Container
+   ══════════════════════════════════════════════ */
 .table-container {
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   border-radius: 16px;
   background: #1e1e2f;
   border: 1px solid #2e2e42;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
 
-  /* Hide scrollbar but keep scrollable */
+  /* Subtle custom scrollbar */
   &::-webkit-scrollbar {
-    height: 4px;
+    height: 6px;
   }
   &::-webkit-scrollbar-track {
-    background: transparent;
+    background: rgba(30, 30, 47, 0.5);
+    border-radius: 6px;
   }
   &::-webkit-scrollbar-thumb {
     background: #3a3a50;
-    border-radius: 4px;
+    border-radius: 6px;
+
+    &:hover {
+      background: #4a4a60;
+    }
   }
 }
 
 .habit-table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 680px;
+  min-width: 700px;
 }
 
 /* ── Table Head ── */
@@ -299,40 +297,80 @@ thead tr {
 }
 
 th {
-  padding: 0.9rem 0.75rem;
+  padding: 0.85rem 0.6rem;
   font-size: 0.72rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: #f0f0f5;
+  color: #f8f9fa;
   white-space: nowrap;
+  vertical-align: middle;
+}
 
-  &.today {
+/* Column header — stacked day name + date number */
+th.col-day {
+  .day-name {
+    display: block;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    line-height: 1.2;
+    color: #f8f9fa;
+  }
+
+  .day-date {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 800;
+    line-height: 1.3;
+    color: #a0a0b0;
+    margin-top: 1px;
+  }
+}
+
+/* ── Today Header — Vibrant Cyan Marker ── */
+th.today-header {
+  position: relative;
+
+  .day-name {
     color: #00e5ff;
-    position: relative;
-    text-shadow: 0 0 8px rgba(0, 229, 255, 0.5);
+    text-shadow: 0 0 10px rgba(0, 229, 255, 0.6);
+  }
 
-    &::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 28px;
-      height: 3px;
-      background: #00e5ff;
-      border-radius: 3px;
-      box-shadow: 0 0 10px rgba(0, 229, 255, 0.6);
-      animation: todayPulse 2s ease-in-out infinite;
-    }
+  .day-date {
+    color: #00e5ff;
+    text-shadow: 0 0 6px rgba(0, 229, 255, 0.4);
+  }
+
+  /* Glowing underline bar */
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 3px;
+    background: #00e5ff;
+    border-radius: 3px;
+    box-shadow: 0 0 12px rgba(0, 229, 255, 0.7);
+    animation: todayPulse 2s ease-in-out infinite;
   }
 }
 
 @keyframes todayPulse {
   0%, 100% { box-shadow: 0 0 10px rgba(0, 229, 255, 0.6); opacity: 1; }
-  50% { box-shadow: 0 0 20px rgba(0, 229, 255, 0.9); opacity: 0.8; }
+  50%      { box-shadow: 0 0 22px rgba(0, 229, 255, 1);   opacity: 0.85; }
 }
 
+/* ── Past Day Column — Greyed Out & Locked ── */
+.is-past-day {
+  filter: grayscale(100%);
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+/* ── Column Sizing ── */
 .col-name {
   text-align: left;
   min-width: 140px;
@@ -341,7 +379,7 @@ th {
 
 .col-day {
   text-align: center;
-  width: 54px;
+  width: 58px;
 }
 
 .col-streak {
@@ -355,60 +393,63 @@ th {
   padding-right: 1rem;
 }
 
-/* ── Table Body Rows ── */
+/* ══════════════════════════════════════════════
+   Table Body Rows
+   ══════════════════════════════════════════════ */
 .habit-row {
-  border-bottom: 1px solid #1e1e2a;
+  border-bottom: 1px solid #262640;
   transition: background 0.15s;
 
-  &:last-child {
-    border-bottom: none;
-  }
+  &:last-child { border-bottom: none; }
 
-  &:hover {
-    background: rgba(124, 92, 252, 0.04);
-  }
+  &:hover { background: rgba(124, 92, 252, 0.04); }
 }
 
 .habit-row td {
-  padding: 0.85rem 0.75rem;
+  padding: 0.85rem 0.6rem;
   vertical-align: middle;
 }
 
 .habit-name {
   font-size: 0.9rem;
   font-weight: 500;
-  color: #f0f0f5;
+  color: #f8f9fa;
   white-space: nowrap;
 }
 
-.today-col {
+/* Today column vertical highlight stripe */
+td.today-col {
   background: rgba(0, 229, 255, 0.06);
   border-left: 1px solid rgba(0, 229, 255, 0.08);
   border-right: 1px solid rgba(0, 229, 255, 0.08);
 }
 
-/* ── Custom Checkbox ── */
+/* ══════════════════════════════════════════════
+   Custom Checkbox
+   ══════════════════════════════════════════════ */
 .check-box {
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
 
-  input[type="checkbox"] {
-    display: none;
+  input[type="checkbox"] { display: none; }
+
+  &.disabled {
+    cursor: not-allowed;
   }
 }
 
 .check-mark {
   width: 30px;
   height: 30px;
-  border: 2px solid #2a2a38;
+  border: 2px solid #2e2e44;
   border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  background: #1a1a24;
+  background: #1a1a28;
   color: transparent;
 
   svg {
@@ -417,9 +458,9 @@ th {
   }
 }
 
-.check-box:hover .check-mark {
+.check-box:not(.disabled):hover .check-mark {
   border-color: #4a4a5a;
-  background: #1e1e2a;
+  background: #22223a;
 }
 
 .check-box.checked .check-mark {
@@ -431,12 +472,14 @@ th {
 }
 
 @keyframes checkPop {
-  0% { transform: scale(1); }
-  40% { transform: scale(1.2); }
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.2); }
   100% { transform: scale(1); }
 }
 
-/* ── Streak Monitor Box ── */
+/* ══════════════════════════════════════════════
+   Streak Monitor Box
+   ══════════════════════════════════════════════ */
 .streak-box {
   display: inline-flex;
   align-items: center;
@@ -463,15 +506,17 @@ th {
 
 @keyframes fireFlicker {
   0%, 100% { transform: scale(1) rotate(0deg); }
-  25% { transform: scale(1.1) rotate(-3deg); }
-  75% { transform: scale(1.05) rotate(3deg); }
+  25%      { transform: scale(1.1) rotate(-3deg); }
+  75%      { transform: scale(1.05) rotate(3deg); }
 }
 
 .streak-num {
   line-height: 1;
 }
 
-/* ── Delete Button ── */
+/* ══════════════════════════════════════════════
+   Delete Button
+   ══════════════════════════════════════════════ */
 .delete-btn {
   background: none;
   border: none;
@@ -493,9 +538,7 @@ th {
 
   &:hover {
     background: rgba(248, 113, 113, 0.1);
-    svg {
-      stroke: #f87171;
-    }
+    svg { stroke: #f87171; }
   }
 }
 
@@ -503,7 +546,9 @@ th {
   opacity: 1;
 }
 
-/* ── Responsive ── */
+/* ══════════════════════════════════════════════
+   Responsive
+   ══════════════════════════════════════════════ */
 @media (max-width: 640px) {
   .page-wrapper {
     padding: 1.5rem 1rem 3rem;
@@ -534,11 +579,7 @@ th {
   .check-mark {
     width: 26px;
     height: 26px;
-
-    svg {
-      width: 14px;
-      height: 14px;
-    }
+    svg { width: 14px; height: 14px; }
   }
 
   .streak-box {
@@ -548,6 +589,6 @@ th {
   }
 
   .delete-btn {
-    opacity: 1; // always show on mobile (no hover)
+    opacity: 1; // always visible on touch devices
   }
 }
