@@ -17,6 +17,7 @@ export interface WeekDay {
   dateString: string; // e.g. "2026-05-27"
   isToday: boolean;
   isPast: boolean;
+  isFuture: boolean;
 }
 
 @Component({
@@ -74,6 +75,7 @@ export class HomePage implements OnInit, AfterViewInit {
       const d = new Date(monday);
       d.setDate(monday.getDate() + i);
       const dateString = this.toDateString(d);
+      const isFuture = dateString > this.todayStr;
 
       this.weekDays.push({
         dayName: dayNames[i],
@@ -81,6 +83,7 @@ export class HomePage implements OnInit, AfterViewInit {
         dateString,
         isToday: dateString === this.todayStr,
         isPast: dateString < this.todayStr,
+        isFuture,
       });
     }
   }
@@ -132,7 +135,7 @@ export class HomePage implements OnInit, AfterViewInit {
   }
 
   toggle(habit: Habit, day: WeekDay): void {
-    if (day.isPast) return; // past days are locked
+    if (day.isPast || day.isFuture) return; // only today is editable in the current week
     habit.history[day.dateString] = !habit.history[day.dateString];
     this.save();
   }

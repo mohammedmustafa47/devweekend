@@ -429,6 +429,21 @@ th.today-header {
   pointer-events: none;
 }
 
+th.is-future-day {
+  .day-name {
+    color: rgba(248, 249, 250, 0.7);
+  }
+
+  .day-date {
+    color: rgba(160, 160, 176, 0.72);
+  }
+}
+
+td.is-future-day .check-box {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
 /* ── Column Sizing ── */
 .col-name {
   text-align: left;
@@ -508,6 +523,11 @@ td.today-col {
 
   &.disabled {
     cursor: not-allowed;
+  }
+
+  &.is-future-day {
+    opacity: 0.3;
+    pointer-events: none;
   }
 }
 

@@ -107,6 +107,7 @@
               class="col-day"
               [class.today-header]="day.isToday"
               [class.is-past-day]="day.isPast"
+              [class.is-future-day]="day.isFuture"
             >
               <span class="day-name">{{ day.dayName }}</span>
               <span class="day-date">{{ day.dateLabel }}</span>
@@ -137,17 +138,19 @@
               class="col-day"
               [class.today-col]="day.isToday"
               [class.is-past-day]="day.isPast"
+              [class.is-future-day]="day.isFuture"
             >
               <label
                 class="check-box"
                 [class.checked]="isChecked(habit, day)"
-                [class.disabled]="day.isPast"
+                [class.disabled]="day.isPast || day.isFuture"
+                [class.is-future-day]="day.isFuture"
               >
                 <input
                   type="checkbox"
                   [checked]="isChecked(habit, day)"
                   (change)="toggle(habit, day)"
-                  [disabled]="day.isPast"
+                  [disabled]="day.isPast || day.isFuture"
                   [id]="'check-' + habit.id + '-' + day.dateString"
                 />
                 <span class="check-mark">
